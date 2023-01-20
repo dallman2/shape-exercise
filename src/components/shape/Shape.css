@@ -1,0 +1,17 @@
+.Shape {
+  animation: moveShape 1s linear 0s infinite normal;
+  --tX0: 0px;
+  --tX1: 50px;
+  --tY0: 0px;
+  --tY1: 10px;
+}
+
+
+@keyframes moveShape {
+  from {
+    transform: translateX(var(--tX0)) translateY(var(--tY0));
+  }
+  to {
+    transform: translateX(var(--tX1)) translateY(var(--tY1));
+  }
+}

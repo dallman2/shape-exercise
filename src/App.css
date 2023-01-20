@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #141414;
+  min-height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0px 2px 5px 2px rgb(85, 85, 85);
+}
+
+.Header-title-text {
+  color: white;
+  font-weight: lighter;
+}
+
+.Header-title-padding {
+  padding-top: 5px;
+  padding-right: 1vw;
+  padding-bottom: 5px;
+  padding-left: 1vw;
+
+  margin: 0px;
+}
+
+.Scaler {
+  transform: scale(.75);
+}
+
+.Shape-container{
+  width: 800px;
+  height: 800px;
+
+  overflow: hidden;
+
+  border: 2px solid black;
+}
+
