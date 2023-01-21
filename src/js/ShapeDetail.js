@@ -37,9 +37,8 @@ export default class Shape {
    */
   constructor(idx) {
     this.index = idx;
-
-    /** randomly select a name */
-    this.name = this.randomCollectionSelector(names);
+    /** randomly select a name, a little goofy, but thats JSON for ya */
+    this.name = this.randomCollectionSelector(names.names);
     /** randomly select a shape code */
     this.type = this.randomCollectionSelector(shapeCodes);
     /** generate a radius for the shape */
@@ -49,8 +48,30 @@ export default class Shape {
       "#" +
       Array.from({ length: 6 }, (el, idx) =>
         this.randomCollectionSelector(hexChars)
-      ).join('');
+      ).join("");
   }
+  /**
+   * this clunky method will allow us to put these objects in redux stores
+   * @returns a datagram for this object
+   */
+  toSimpleObj() {
+    const i = this.index,
+      n = this.name,
+      t = this.type,
+      s = this.size,
+      c = this.color;
+    return {
+      index: i,
+      name: n,
+      type: t,
+      size: s,
+      color: c,
+    };
+  }
+  /**
+   * tailored random number generation
+   * @returns a float between `[0 + RADIUS_RANGE_OFFSET, RADIUS_RANGE_WIDTH + + RADIUS_RANGE_OFFSET]`
+   */
   randomRadiusSelector() {
     return Math.random() * RADIUS_RANGE_WIDTH + RADIUS_RANGE_OFFSET;
   }

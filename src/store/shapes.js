@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Shape from "../js/Shape";
+import Shape from "../js/ShapeDetail";
 
 export const shapesSlice = createSlice({
   name: "shapes",
@@ -28,7 +28,7 @@ export const shapesSlice = createSlice({
      */
     initShapesStructure: (state, action) => {
       const n = action.payload;
-      state.shapes = Array.from({ length: n }, (el, idx) => new Shape(idx));
+      state.shapes = Array.from({ length: n }, (el, idx) => new Shape(idx).toSimpleObj());
 
       state.initiated = true;
     },
