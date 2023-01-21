@@ -1,28 +1,19 @@
 import "./App.css";
 
-import Switch from 'react-switch'
+import Controls from './components/controls'
 import Shape from "./components/shape";
 
-
 function App() {
-  let forward = false
-
-  const forwardChanged = () => {
-    console.log('clicked the forward btn')
-
-  }
-
   return (
     <div className="App">
       <header className="App-header">
         <h2 className="Header-title-text Header-title-padding">
-          Shapes Excersize
+          Shapes Exercise
         </h2>
       </header>
       <section>
-        <div>
-          <p>I hold the controls</p>
-          <Switch onChange={forwardChanged} checked={forward}/>
+        <div className="Controls-container">
+          <Controls/>
         </div>
         <div className="Scaler Shape-container">
           <p>I am the container of shapes</p>
