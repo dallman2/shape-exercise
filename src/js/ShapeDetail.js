@@ -5,9 +5,9 @@ const RADIUS_RANGE_WIDTH = 10,
   /** the amount we want to shift the radius window */
   RADIUS_RANGE_OFFSET = 5;
 
-const CIRCLE = 1,
-  SQUARE = 2,
-  TRIANGLE = 3;
+const CIRCLE = 'circles',
+  SQUARE = 'squares',
+  TRIANGLE = 'triangles';
 /** these are the codes for the possible shapes, like a list of enums*/
 const shapeCodes = [CIRCLE, SQUARE, TRIANGLE];
 /** list of possible hex chars we can use */

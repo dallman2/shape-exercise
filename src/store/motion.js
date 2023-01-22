@@ -13,6 +13,7 @@ export const motionSlice = createSlice({
     initiated: false,
     forward: false,
     backward: false,
+    update: false,
     positionsX: [],
     positionsY: [],
     velocitiesX: [],
@@ -43,22 +44,43 @@ export const motionSlice = createSlice({
      * @param {*} actions payload contains number of shapes
      */
     initShapesMotion: (state, actions) => {
+      // declare functions and `n`
       const n = actions.payload,
         randomPosGen = (el, idx) => Math.random() * UPPER_WINDOW_BOUND,
         randomVelGen = (el, idx) =>
           Math.random() * VELOCITY_RANGE_WIDTH + VELOCITY_RANGE_OFFSET;
-
+      // declare the arrays we need for motion
       state.positionsX = Array.from({ length: n }, randomPosGen);
       state.positionsY = Array.from({ length: n }, randomPosGen);
       state.velocitiesX = Array.from({ length: n }, randomVelGen);
       state.velocitiesY = Array.from({ length: n }, randomVelGen);
-
+      // let the toggles know that they can engage
       state.initiated = true;
     },
+    /**
+     * updates the positions from some point in time `t(k)` to `t(k +/- 1)`.
+     * depending on the direction of motion
+     * @param {*} state 
+     * @returns 
+     */
+    updateMotionArrays: (state) => {
+      // if neither are selected, dont update anything
+      if (!state.forward && !state.backward) return;
+      // if we make it here, we know that were either going forward or backward
+      // because of that, we only need to check one of the values
+      state.positionsX = state.positionsX.map((el, idx) => {
+        return el + (state.velocitiesX[idx] * state.forward ? 1 : -1);
+      });
+      state.positionsY = state.positionsY.map((el, idx) => {
+        return el + (state.velocitiesY[idx] * state.forward ? 1 : -1);
+      });
+      // toggle the update flag to trigger a rerender
+      state.update = !state.update;
+    }
   },
 });
 
-export const { forwardToggle, backwardToggle, initShapesMotion } =
+export const { forwardToggle, backwardToggle, initShapesMotion, updateMotionArrays } =
   motionSlice.actions;
 
 export default motionSlice.reducer;
