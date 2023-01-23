@@ -1,9 +1,10 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Controls from "./Controls";
 
 import { Provider } from "react-redux";
 import store from "../../store/store";
 import { act } from "react-dom/test-utils";
+import userEvent from "@testing-library/user-event";
 
 test("renders control block", () => {
   render(
@@ -36,7 +37,7 @@ test("prints to console correctly", () => {
     </Provider>
   );
 
-  const spy = jest.spyOn(global.console, 'log')
+  const spy = jest.spyOn(global.console, "log");
 
   const initBtn = screen.getByText("Initialize");
   const printBtn = screen.getByText("Print shapes to console");
@@ -46,24 +47,41 @@ test("prints to console correctly", () => {
     initBtn.click();
   });
   expect(store.getState().shapes.initiated).toBeTruthy();
-  printBtn.click()
+  printBtn.click();
   expect(spy).toHaveBeenCalled();
 });
 
-// test("switches enable properly", () => {
-//     render(
-//       <Provider store={store}>
-//         <Controls />
-//       </Provider>
-//     );
-//     const initBtn = screen.getByText("Initialize");
-//     const backward = screen.getByTestId("motionBackward");
-//     expect(initBtn).toBeInTheDocument();
-//     expect(backward).toBeInTheDocument();
-//     expect(backward).toBeDisabled()
-//     act(() => {
-//         initBtn.click();
-//     });
-//     expect(store.getState().shapes.initiated).toBeTruthy();
-//     expect(backward).toBeEnabled()
-//   });
+test("switches trigger and stop motion", () => {
+  render(
+    <Provider store={store}>
+      <Controls />
+    </Provider>
+  );
+  const initBtn = screen.getByText("Initialize");
+  const forward = screen.getByTestId("motionForward");
+  const backward = screen.getByTestId("motionBackward");
+  expect(initBtn).toBeInTheDocument();
+  expect(backward).toBeInTheDocument();
+  expect(forward).toBeInTheDocument();
+
+  userEvent.click(initBtn);
+  expect(store.getState().shapes.initiated).toBeTruthy();
+
+  userEvent.click(backward);
+  expect(store.getState().motion.backward).toBeTruthy();
+  userEvent.click(backward);
+  expect(store.getState().motion.backward).toBeFalsy();
+  userEvent.click(forward);
+  expect(store.getState().motion.forward).toBeTruthy();
+  userEvent.click(forward);
+  expect(store.getState().motion.forward).toBeFalsy();
+
+  userEvent.click(forward);
+  expect(store.getState().motion.forward).toBeTruthy();
+  userEvent.click(backward);
+  expect(store.getState().motion.forward).toBeFalsy();
+  expect(store.getState().motion.backward).toBeTruthy();
+  userEvent.click(backward);
+  expect(store.getState().motion.backward).toBeFalsy();
+
+});

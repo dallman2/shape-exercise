@@ -14,14 +14,20 @@ function App() {
         <h2 className="Header-title-text Header-title-padding">
           Shapes Exercise
         </h2>
+        <a
+          className="Github-link Header-title-padding"
+          rel="noreferrer"
+          target="_blank"
+          href="https://github.com/dallman2/shape-exercise"
+        >
+          Source
+        </a>
       </header>
       <section className="Main-container">
         <div className="Controls-container">
           <Controls />
         </div>
-        <div className="Shape-container">
-          {shapeList}
-        </div>
+        <div className="Shape-container">{shapeList}</div>
       </section>
     </div>
   );
