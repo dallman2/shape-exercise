@@ -163,6 +163,7 @@ const Controls = () => {
           <label className="Label">Forward</label>
           <span className="Control">
             <ReactSwitch
+              data-testid="motionForward"
               onChange={() => toggleMotion(true)}
               checked={motion.forward}
               disabled={!motion.initiated}
@@ -171,6 +172,7 @@ const Controls = () => {
           <label className="Label">Backward</label>
           <span className="Control">
             <ReactSwitch
+              data-testid="motionBackward"
               onChange={() => toggleMotion(false)}
               checked={motion.backward}
               disabled={!motion.initiated}
@@ -185,6 +187,7 @@ const Controls = () => {
             <label className="Label">Squares</label>
             <span className="Control">
               <ReactSwitch
+                data-testid="transSquares"
                 onChange={() => dispatch(toggleTransparency("squares"))}
                 checked={shapes.transparent.squares}
               />
@@ -194,6 +197,7 @@ const Controls = () => {
             <label className="Label">Circles</label>
             <span className="Control">
               <ReactSwitch
+                data-testid="transCircles"
                 onChange={() => dispatch(toggleTransparency("circles"))}
                 checked={shapes.transparent.circles}
               />
@@ -203,6 +207,7 @@ const Controls = () => {
             <label className="Label">Triangles</label>
             <span className="Control">
               <ReactSwitch
+                data-testid="transTriangles"
                 onChange={() => dispatch(toggleTransparency("triangles"))}
                 checked={shapes.transparent.triangles}
               />
