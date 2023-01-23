@@ -106,6 +106,27 @@ const Controls = () => {
     dispatch(initShapesMotion(n));
   };
 
+  /**
+   * this 'zips' all data for a single shape into an object,
+   * maps all of those objects into a list, then prints the list
+   */
+  const shapesToConsole = () => {
+    const fullList = shapes.shapes.map((el, idx) => {
+      const singleMotion = {
+        tX: motion.positionsX[idx],
+        tY: motion.positionsY[idx],
+        dX: motion.velocitiesX[idx],
+        dY: motion.velocitiesY[idx],
+      };
+      return {
+        ...el,
+        motion: singleMotion,
+      };
+    });
+    // console.table(fullList);
+    console.log(fullList);
+  };
+
   return (
     <>
       <p className="Title">Controls:</p>
@@ -125,6 +146,14 @@ const Controls = () => {
           </span>
           <button className="Control" onClick={setup}>
             Initialize
+          </button>
+        </div>
+      </div>
+      <div className="Control-container">
+        <label>Console Control</label>
+        <div className="Console-controls">
+          <button className="Control" onClick={shapesToConsole}>
+            Print shapes to console
           </button>
         </div>
       </div>

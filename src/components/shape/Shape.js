@@ -3,24 +3,7 @@ import { useSelector } from "react-redux";
 import "./Shape.css";
 
 /**
- * ## this is the shape component
- * currently, this manages its own
- * animation logic. whats actually going on here is a combination of:
- *  - transitions
- *  - intervals
- *
- * #### transitions
- * effectively, we grab the element from the dom and replace
- * its transition style with new values dependant on its new
- * position.
- *
- * #### intervals
- * to actually accomplish something every second, we need to
- * call some sort of function on a regular interval. the
- * `setInterval` function is great for that. currently, the logic
- * lives in the motion store. a `useEffect` hook is used to 'watch'
- * the store
- *
+ * 
  * @param props - please supply this shapes data as a prop
  * @returns the shape component
  */
