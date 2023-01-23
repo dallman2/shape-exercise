@@ -1,5 +1,16 @@
 # shape-exercise
-A brief project for me to learn some React use cases beyond "Hello World"
+A brief project for me to learn some React use cases beyond "Hello World".
+It is deployed on github pages [here](https://dallman2.github.io/shape-exercise/).
+
+## How do I run/ test this?
+This is a pretty simple react app made using `create-react-app`. To run this locally:
+ - Clone the repo
+ - Run `npm i` in the repo to install dependencies
+ - Run `npm start` to start the `localhost` server
+ - Run `npm test` to start the test server, then follow the instructions from the
+ command line to do specific testing stuff
+ - Run `npm run deploy` to publish the built version of the app to the github pages
+ for this repository (not sure if anyone but me can do this at the moment) 
 
 ## Discussion on some of the choices I made
 ---
