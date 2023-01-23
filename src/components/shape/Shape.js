@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "./Shape.css";
 
@@ -28,71 +28,54 @@ const Shape = (props) => {
   const motion = useSelector((state) => state.motion);
   const shapes = useSelector((state) => state.shapes);
 
+
   let [transClass, setTransClass] = useState(false);
-
-  let selectedShapeClass = "";
-  switch (props.data.type) {
-    case "circles":
-      selectedShapeClass = "Circle";
-      break;
-    case "squares":
-      selectedShapeClass = "Square";
-      break;
-    case "triangles":
-      selectedShapeClass = "Triangle";
-      break;
-    default:
-      break;
-  }
-
-  // this is the side effect block that updates the position for the shape
-  // there is a warning that we have not included all dependencies, but we
-  // have. the `motion.update` dependency is a sort of meta-dependency,
-  // representing the change in all four motion arrays.
-  const thisElement = useRef(null);
+  let [selectedShapeStyle, setSelectedShapeStyle] = useState({});
 
   useEffect(() => {
-    let el = thisElement.current;
-    console.log(el.style);
-    // grab the new positions and new targets
-    const tX0 = motion.positionsX[props.data.idx],
-      tY0 = motion.positionsY[props.data.idx];
-    const tX1 = motion.positionsX[props.data.idx] + motion.velocitiesX,
-      tY1 = motion.positionsY[props.data.idx] + motion.velocitiesY;
-    // apply the new positions and targets
-    el.style.left = `${tX0}px`;
-    el.style.top = `${tY0}px`;
-    el.style.transform = `translateX(${tX1}px) translateY(${tY1}px)`;
-    console.log(el.style);
-  }, [motion.update, props.data]);
+    switch (props.data.type) {
+      case "circles":
+        setSelectedShapeStyle({
+          height: `${props.data.size * 2}px`,
+          width: `${props.data.size * 2}px`,
+          borderRadius: `${props.data.size}px`,
+          backgroundColor: props.data.color,
+        });
+        break;
+      case "squares":
+        setSelectedShapeStyle({
+          height: `${props.data.size * 2}px`,
+          width: `${props.data.size * 2}px`,
+          backgroundColor: props.data.color,
+        });
+        break;
+      case "triangles":
+        setSelectedShapeStyle({
+          width: 0,
+          height: 0,
+          borderBottom: `${props.data.size * 2}px solid ${props.data.color}`,
+          borderLeft: `${props.data.size}px solid transparent`,
+          borderRight: `${props.data.size}px solid transparent`,
+        });
+        break;
+      default:
+        break;
+    }
+  }, [props.data]);
 
   // this is the side effect block that handles transparency stuff
   // again, we only want to rerender if a `transparency` value changes
   useEffect(() => {
-    if (shapes.transparent[props.data.index]) setTransClass(true);
+    if (shapes.transparent[props.data.type]) setTransClass(true);
     else setTransClass(false);
-  }, [shapes.transparent]);
+  }, [shapes.transparent, props.data]);
 
   return (
-    <div
-      ref={thisElement}
-      className={`Shape ${selectedShapeClass} 
-        ${transClass ? "Tranparent" : "Solid"}`}
-      // style={{
-      //   left: motion.positionsX[props.data.idx] + "px",
-      //   top: motion.positionsY[props.data.idx] + "px",
-      //   transform:
-      //     motion.forward || motion.backward
-      //       ? `translateX(${
-      //           motion.positionsX[props.data.idx] + motion.velocitiesX
-      //         }px) 
-      //    translateY(${
-      //      motion.positionsY[props.data.idx] + motion.velocitiesY
-      //    }px)}`
-      //       : "",
-      // }}
+    <div 
+      className={`Shape ${transClass ? "Transparent" : ""}`}
+      style={{ ...selectedShapeStyle, ...motion.style[props.data.index] }}
     >
-      I am a {props.data.size}px {props.data.type}, my name is {props.data.name}
+      {props.data.name}
     </div>
   );
 };

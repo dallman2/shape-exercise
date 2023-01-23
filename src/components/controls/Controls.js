@@ -7,7 +7,7 @@ import {
   initShapesMotion,
   updateMotionArrays,
 } from "../../store/motion";
-import { initShapesStructure } from "../../store/shapes";
+import { initShapesStructure, toggleTransparency } from "../../store/shapes";
 
 import "./Controls.css";
 
@@ -22,6 +22,7 @@ import NumericInput from "react-numeric-input";
  */
 const Controls = () => {
   const motion = useSelector((state) => state.motion);
+  const shapes = useSelector((state) => state.shapes);
 
   const dispatch = useDispatch();
   /** this is the value and setter for the number of shapes */
@@ -55,22 +56,18 @@ const Controls = () => {
    * @param {boolean} forward - did we click the forward button?
    */
   let toggleMotion = (forward) => {
-    console.log("clicked a button");
-    console.log(motion);
-    console.log(interval);
     if (!motion.forward && !motion.backward && !interval.current) {
-      console.log("nothing running, starting");
       // this is the block if nothing is running
       dispatch(forward ? forwardToggle() : backwardToggle());
+      doUpdate();
       interval.current = setInterval(doUpdate, 1000);
     } else if (motion.forward && interval.current) {
-      console.log("forward on, interval found");
       // this is the block if were going forward
       if (forward) {
         // if we clicked the forward button while going forward,
         // just stop the motion
         clearInterval(interval.current);
-        interval.current = null
+        interval.current = null;
         dispatch(forwardToggle());
       } else {
         // otherwise, we clicked the backwards button while going
@@ -78,22 +75,23 @@ const Controls = () => {
         // toggle the button
         clearInterval(interval.current);
         dispatch(backwardToggle());
+        doUpdate();
         interval.current = setInterval(doUpdate, 1000);
       }
     } else if (motion.backward && interval.current) {
-      console.log("backward on, interval found");
       // this is the block if were going backward
       if (forward) {
         // if we clicked the forward button while going backward,
         // clear the interval, set a new one, and toggle the button
         clearInterval(interval.current);
         dispatch(forwardToggle());
+        doUpdate();
         interval.current = setInterval(doUpdate, 1000);
       } else {
         // otherwise, we clicked the backwards button while going
         // backward. just stop the motion
         clearInterval(interval.current);
-        interval.current = null
+        interval.current = null;
         dispatch(backwardToggle());
       }
     }
@@ -110,35 +108,79 @@ const Controls = () => {
 
   return (
     <>
-      <p>I hold the controls</p>
-      <label>
-        <span>Number of shapes:</span>
-        <NumericInput
-          value={n}
-          step={1}
-          min={1}
-          max={10000}
-          snap
-          onChange={(val) => setN(val)}
-        />
-        <button onClick={setup}>Shapes to initialize: {n}</button>
-      </label>
-      <label>
-        <span>Forward</span>
-        <ReactSwitch
-          onChange={() => toggleMotion(true)}
-          checked={motion.forward}
-          disabled={!motion.initiated}
-        />
-      </label>
-      <label>
-        <span>Backward</span>
-        <ReactSwitch
-          onChange={() => toggleMotion(false)}
-          checked={motion.backward}
-          disabled={!motion.initiated}
-        />
-      </label>
+      <p className="Title">Controls:</p>
+      <div className="Control-container">
+        <label>Initialization:</label>
+        <div className="Init-controls">
+          <label className="Label">Number of shapes:</label>
+          <span className="Control">
+            <NumericInput
+              value={n}
+              step={1}
+              min={1}
+              max={10000}
+              snap
+              onChange={(val) => setN(val)}
+            />
+          </span>
+          <button className="Control" onClick={setup}>
+            Initialize
+          </button>
+        </div>
+      </div>
+      <div className="Control-container">
+        <label>Motion Control</label>
+        <div className="Motion-controls">
+          <label className="Label">Forward</label>
+          <span className="Control">
+            <ReactSwitch
+              onChange={() => toggleMotion(true)}
+              checked={motion.forward}
+              disabled={!motion.initiated}
+            />
+          </span>
+          <label className="Label">Backward</label>
+          <span className="Control">
+            <ReactSwitch
+              onChange={() => toggleMotion(false)}
+              checked={motion.backward}
+              disabled={!motion.initiated}
+            />
+          </span>
+        </div>
+      </div>
+      <div className="Control-container">
+        <label>Transparencies</label>
+        <div className="Trans-controls">
+          <div className="Trans-toggle">
+            <label className="Label">Squares</label>
+            <span className="Control">
+              <ReactSwitch
+                onChange={() => dispatch(toggleTransparency("squares"))}
+                checked={shapes.transparent.squares}
+              />
+            </span>
+          </div>
+          <div className="Trans-toggle">
+            <label className="Label">Circles</label>
+            <span className="Control">
+              <ReactSwitch
+                onChange={() => dispatch(toggleTransparency("circles"))}
+                checked={shapes.transparent.circles}
+              />
+            </span>
+          </div>
+          <div className="Trans-toggle">
+            <label className="Label">Triangles</label>
+            <span className="Control">
+              <ReactSwitch
+                onChange={() => dispatch(toggleTransparency("triangles"))}
+                checked={shapes.transparent.triangles}
+              />
+            </span>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

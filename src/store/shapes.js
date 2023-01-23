@@ -7,9 +7,9 @@ export const shapesSlice = createSlice({
     initiated: false,
     shapes: [],
     transparent: {
-      circles: true,
-      triangles: true,
-      squares: true,
+      circles: false,
+      triangles: false,
+      squares: false,
     },
   },
   reducers: {

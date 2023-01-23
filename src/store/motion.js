@@ -5,7 +5,12 @@ const UPPER_WINDOW_BOUND = 800,
   /** How large is the velocity window? */
   VELOCITY_RANGE_WIDTH = 10,
   /** How far do we want to shift the velocity window? */
-  VELOCITY_RANGE_OFFSET = -5;
+  VELOCITY_RANGE_OFFSET = -5,
+  /** how big/ small do we want to scale the window? */
+  FINAL_WINDOW_BOUND = 600;
+
+const scaler = (from, to) => (num) => num * (to / from);
+const specificScaler = scaler(UPPER_WINDOW_BOUND, FINAL_WINDOW_BOUND);
 
 export const motionSlice = createSlice({
   name: "motion",
@@ -13,11 +18,11 @@ export const motionSlice = createSlice({
     initiated: false,
     forward: false,
     backward: false,
-    update: false,
     positionsX: [],
     positionsY: [],
     velocitiesX: [],
     velocitiesY: [],
+    style: [],
   },
   reducers: {
     /**
@@ -54,14 +59,26 @@ export const motionSlice = createSlice({
       state.positionsY = Array.from({ length: n }, randomPosGen);
       state.velocitiesX = Array.from({ length: n }, randomVelGen);
       state.velocitiesY = Array.from({ length: n }, randomVelGen);
+
+      state.style = state.positionsX.map((el, idx) => {
+        return {
+          left: "0px",
+          top: "0px",
+          transition: `transform 1s linear 0s`,
+          transform: `translateX(${specificScaler(
+            state.positionsX[idx]
+          )}px) translateY(${specificScaler(state.positionsY[idx])}px)`,
+        };
+      });
+
       // let the toggles know that they can engage
       state.initiated = true;
     },
     /**
      * updates the positions from some point in time `t(k)` to `t(k +/- 1)`.
      * depending on the direction of motion
-     * @param {*} state 
-     * @returns 
+     * @param {*} state
+     * @returns
      */
     updateMotionArrays: (state) => {
       // if neither are selected, dont update anything
@@ -69,18 +86,30 @@ export const motionSlice = createSlice({
       // if we make it here, we know that were either going forward or backward
       // because of that, we only need to check one of the values
       state.positionsX = state.positionsX.map((el, idx) => {
-        return el + (state.velocitiesX[idx] * state.forward ? 1 : -1);
+        return el + state.velocitiesX[idx] * (state.forward ? 1 : -1);
       });
       state.positionsY = state.positionsY.map((el, idx) => {
-        return el + (state.velocitiesY[idx] * state.forward ? 1 : -1);
+        return el + state.velocitiesY[idx] * (state.forward ? 1 : -1);
       });
-      // toggle the update flag to trigger a rerender
-      state.update = !state.update;
-    }
+      state.style = state.positionsX.map((el, idx) => {
+        return {
+          left: `0px`,
+          top: `0px`,
+          transition: `transform 1s linear 0s`,
+          transform: `translateX(${specificScaler(
+            state.positionsX[idx]
+          )}px) translateY(${specificScaler(state.positionsY[idx])}px)`,
+        };
+      });
+    },
   },
 });
 
-export const { forwardToggle, backwardToggle, initShapesMotion, updateMotionArrays } =
-  motionSlice.actions;
+export const {
+  forwardToggle,
+  backwardToggle,
+  initShapesMotion,
+  updateMotionArrays,
+} = motionSlice.actions;
 
 export default motionSlice.reducer;

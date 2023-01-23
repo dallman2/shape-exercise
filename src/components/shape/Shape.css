@@ -1,6 +1,8 @@
 .Shape {
   position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 1s linear 0s;
+  font-size: 10pt;
+}
+
+.Transparent {
+  opacity: .5;
 }

@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import "./App.css";
 
-import Controls from './components/controls'
+import Controls from "./components/controls";
 import Shape from "./components/shape";
 
 function App() {
-  const shapes = useSelector(state => state.shapes)
-  let shapeList = shapes.shapes.map((el, idx) => <Shape key={idx} data={el}/>)
+  const shapes = useSelector((state) => state.shapes);
+  let shapeList = shapes.shapes.map((el, idx) => <Shape key={idx} data={el} />);
 
   return (
     <div className="App">
@@ -15,13 +15,11 @@ function App() {
           Shapes Exercise
         </h2>
       </header>
-      <section>
+      <section className="Main-container">
         <div className="Controls-container">
-          <Controls/>
+          <Controls />
         </div>
-        <div className="Scaler Shape-container">
-          <p>I am the container of shapes</p>
-          <p>I need to be scaled</p>
+        <div className="Shape-container">
           {shapeList}
         </div>
       </section>

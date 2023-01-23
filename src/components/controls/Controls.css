@@ -1,0 +1,61 @@
+.Title {
+    align-self: center;
+
+    padding: 0em 1em;
+
+    font-size: 20pt;
+    font-weight: lighter;
+}
+
+.Control-container {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-items: center;
+
+    margin: 10px 10px;
+
+    font-size: 16pt;
+}
+
+.Control {
+    margin: 5px 5px;
+
+    font-size: 14pt;
+}
+
+.Label{
+    padding: 5px 5px;
+    margin: 5px 5px;
+    
+    font-size: 14pt;
+}
+
+.Init-controls {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-items: center;
+}
+
+.Motion-controls {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-items: center;
+}
+
+.Trans-controls {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-items: center;
+}
+
+.Trans-toggle {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-items: center;
+
+}
