@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/shape-exercise/static/css/main.42d579cd.css",
+    "main.js": "/shape-exercise/static/js/main.c8d6593b.js",
+    "static/js/787.ffe8d19b.chunk.js": "/shape-exercise/static/js/787.ffe8d19b.chunk.js",
+    "index.html": "/shape-exercise/index.html",
+    "main.42d579cd.css.map": "/shape-exercise/static/css/main.42d579cd.css.map",
+    "main.c8d6593b.js.map": "/shape-exercise/static/js/main.c8d6593b.js.map",
+    "787.ffe8d19b.chunk.js.map": "/shape-exercise/static/js/787.ffe8d19b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.42d579cd.css",
+    "static/js/main.c8d6593b.js"
+  ]
+}
